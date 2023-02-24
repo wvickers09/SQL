@@ -1,0 +1,26 @@
+--Create a grocery store database
+
+CREATE TABLE store_db (id integer primary key, item_name text, description text, quantity integer, price integer);
+
+INSERT INTO store_db VALUES
+(1, 'Doritos', 'chips', 15, 2),
+(2, 'Cheetos', 'chips', 10, 2),
+(3, 'Skittles', 'candy', 20, 1),
+(4, 'Coke', 'drink', 12, 2),
+(5, 'Pepsi', 'drink', 12, 2),
+(6, 'Dr. Pepper', 'drink', 12, 2),
+(7, 'Sour Patch Kids', 'candy', 15, 1),
+(8, 'Cheeto Puffs', 'chips', 10, 2),
+(9, 'Gummy Bears', 'candy', 10, 1),
+(10, 'Red Bull', 'drink', 14, 4),
+(11, 'Monster', 'drink', 14, 4),
+(12, 'Sunkist', 'drink', 10, 2),
+(13, 'Lays Original', 'chips', 10, 2),
+(14, 'Lays BBQ', 'chips', 5, 2),
+(15, 'Hot Fries', 'chips', 10, 2);
+
+--Display the database ordered by price
+SELECT item_name, price FROM store_db ORDER BY price; 
+
+--Display total number of items in the inventory for the store
+SELECT SUM(quantity) FROM store_db
