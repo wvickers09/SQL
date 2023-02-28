@@ -1,4 +1,4 @@
--- Display and find information based on Netflix data supplied at https://bit.io/CharlotteChaze/BreakIntoTech
+-- Display and find information based on Netflix data supplied at https://bit.io/CharlotteChaze/BreakIntoTech using PostgreSQL
 
 --Display information from two data sets about Netflix show data
 SELECT
