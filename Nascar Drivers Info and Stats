@@ -1,0 +1,46 @@
+--Display information and statistics of certain NASCAR drivers
+
+CREATE TABLE famous_people (id INTEGER PRIMARY KEY, fullname TEXT, car_number INTEGER);
+
+INSERT INTO famous_people (fullname, car_number) VALUES 
+    ('Kevin Harvick', 4),
+    ('Chase Elliot', 9),
+    ('Brad Keselowski', 6),
+    ('Ryan Blaney', 12),
+    ('Denny Hamlin', 11),
+    ('Ross Chastain', 1),
+    ('Kyle Busch', 8);
+    
+CREATE TABLE car_owner (id INTEGER PRIMARY KEY, fullname TEXT, team_name TEXT, car_number INTEGER);
+
+INSERT INTO car_owner (fullname, team_name, car_number) VALUES
+    ('Tony Stewart', 'Stewart-Haas Racing', 4),
+    ('Rick Hendrick', 'Hendrick Motorsports', 9),
+    ('Brad Keselowski/Jack Roush', 'Roush-Fenway-Keselowski Racing', 6),
+    ('Roger Penske', 'Team Penske', 12),
+    ('Joe Gibbs', 'Joe Gibbs Racing', 11),
+    ('Justin Marks/Pitbull', 'Trackhouse Racing', 1),
+    ('Richard Childress', 'Richard Chidress Racing', 8);
+    
+CREATE TABLE wins_championships (id INTEGER PRIMARY KEY, driver_id INTEGER, wins INTEGER, championships INTEGER);
+
+INSERT INTO wins_championships (driver_id, wins, championships) VALUES
+    (1, 60, 1),
+    (2, 18, 1),
+    (3, 35, 1),
+    (4, 7, 0),
+    (5, 48, 0),
+    (6, 2, 0),
+    (7, 61, 2);
+
+--Display drivers with car owners, and team names
+SELECT famous_people.fullname AS Driver_Name, car_owner.fullname AS Car_Owner, car_owner.team_name AS Team, car_owner.car_number
+FROM famous_people
+JOIN car_owner
+ON car_owner.car_number = famous_people.car_number;
+
+--Display number of wins and championships for each driver
+SELECT fullname AS Driver_Name, wins AS Wins, championships AS Championships 
+FROM famous_people
+JOIN wins_championships
+ON wins_championships.driver_id = famous_people.id
