@@ -1,0 +1,54 @@
+--Use SQLiteStudio to answer certain questions from data supplied in a database from https://www.dropbox.com/s/cvsasmtr8syq2c2/BIT_DB?dl=0
+
+--How many orders where placed in January?
+SELECT COUNT(orderid)
+FROM BIT_DB.JanSales
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID'
+--9681
+
+--How many of those orders were for an iPhone?
+SELECT COUNT(orderid)
+FROM BIT_DB.JanSales
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID' 
+AND Product = 'iPhone'
+--379
+
+--Select the customer account numbers for all the orders that were placed in February.
+SELECT distinct acctnum 
+FROM BIT_DB.customers cust
+INNER JOIN BIT_DB.FebSales feb
+ON cust.order_id = feb.orderID
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID'
+
+--Which product was the cheapest one sold in January, and what was the price?
+SELECT distinct Product, price
+FROM BIT_DB.JanSales
+ORDER BY price ASC LIMIT 1
+--AAA Batteries (4-pack) $2.99
+
+--What is the total revenue for each product sold in January?
+SELECT sum(quantity) * price AS revenue, product
+FROM BIT_DB.JanSales
+WHERE length(orderid) = 6
+AND orderid <> 'Order ID'
+GROUP BY Products
+
+--Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+SELECT product, sum(quantity), sum(quantity)*price AS revenue
+FROM BIT_DB.FebSales
+WHERE location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY product
+--AA Batteries (4-Pack), 2, $7.68
+
+--How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+SELECT count(distinct cust.acctnum), avg(quantity*price) AS Average_Spent
+FROM BIT_DB.FebSales feb
+LEFT JOIN BIT_DB.customers cust
+ON feb.orderID = cust.order_id
+WHERE feb.Quantity > 2
+AND length(orderid) = 6
+and orderid <> 'Order ID'
+-- 278, $13.8279496
