@@ -52,3 +52,58 @@ WHERE feb.Quantity > 2
 AND length(orderid) = 6
 and orderid <> 'Order ID'
 -- 278, $13.8279496
+
+--List all the products sold in Los Angeles in February, and include how many of each were sold.
+SELECT product, sum(quantity)
+FROM BIT_DB.FebSales
+WHERE location like '%Los Angeles%'
+GROUP BY product
+
+--Which locations in New York received at least 3 orders in January, and how many orders did they each receive?
+SELECT location, count(orderid) AS total_orders
+FROM BIT_DB.JanSales
+WHERE location like '%NY%'
+AND length(orderid) = 6
+AND orderid <> 'Order ID'
+GROUP BY location
+HAVING count(orderID) > 2
+--148 Elm St, New York City, NY 10001         3
+--515 Lincoln St, New York City, NY 10001     3
+--916 Pine St, New York City, NY 10001        3
+--961 Jefferson St, New York City, NY 10001   4
+
+--How many of each type of headphone were sold in February?
+SELECT product, sum(quantity) AS total_sold
+FROM BIT_DB.FebSales
+WHERE product like '%headphone%'
+AND length(orderid) = 6
+AND orderID <> 'Order ID'
+GROUP BY product
+--Apple Airpods Headphones      1011
+--Bose SoundSport Headphones    834
+--Wired Headphones              1186
+
+--What was the average amount spent per account in February?
+SELECT sum(quantity*price)/count(cust.acctnum)
+FROM BIT_DB.FebSales feb
+LEFT JOIN BIT_DB.customers cust
+on feb.orderID = cust.order_id
+WHERE length(orderid) = 6
+AND orderid <> 'Order ID'
+--$190.00034676
+
+--What was the average quantity of products purchased per account in February?
+SELECT sum(quantity)/count(cust.acctnum)
+FROM BIT_DB.FebSales feb
+LEFT JOIN BIT_DB.customers cust
+on feb.orderID = cust.order_id
+WHERE length(orderid) = 6
+AND orderid <> 'Order ID'
+--1
+
+--Which product brought in the most revenue in January and how much did it bring in total?
+SELECT product, sum(quantity*price) AS revenue
+FROM BIT_DB.JanSales
+GROUP BY Product
+ORDER BY revenue DESC LIMIT 1
+--Macbook Pro Laptop, $399,500
